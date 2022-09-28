@@ -10,22 +10,36 @@ app.use(express.static("public"));
 //Setting the view enginr to ejs
 app.set("view engine", "ejs");
 
-// Creating a global variable for  todos
-let todos = [];
+// Creating a global variable for  todos and work
+let todos = ["eat", "sleep"];
+let work = ["Project", "Homework"];
 
+//**** Get Requests ****//
 app.get("/", function (req, res) {
   options = { weekday: "long", month: "long", day: "numeric" };
   let today = new Date();
   let day = today.toLocaleDateString("en-US", options);
 
-  res.render("list", { kindOfDay: day, todos: todos });
+  res.render("list", { title: day, list: todos });
 });
 
-app.post("/", function (req, res) {
-  console.log(req.body.todo);
-  todos.push(req.body.todo);
+app.get("/work", function (req, res) {
+  res.render("list", { title: "Work", list: work });
+});
 
-  res.redirect("/");
+//**** Get Requests ****//
+app.post("/", function (req, res) {
+  console.log(req.body);
+  item = req.body.listItem;
+  title = req.body.listName;
+
+  if (title === "Work") {
+    work.push(item);
+    res.redirect("/work");
+  } else {
+    todos.push(item);
+    res.redirect("/");
+  }
 });
 
 app.listen(3000, function (req, res) {
