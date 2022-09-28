@@ -12,13 +12,13 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 // Creating a global variable for  todos and work
-let todos = ["eat", "sleep"];
-let work = ["Project", "Homework"];
+const todos = ["eat", "sleep"];
+const work = ["Project", "Homework"];
 
 //**** Get Requests ****//
 app.get("/", function (req, res) {
   //calling the getDate() function from our custom module
-  let day = date();
+  const day = date.getDate();
   res.render("list", { title: day, list: todos });
 });
 
